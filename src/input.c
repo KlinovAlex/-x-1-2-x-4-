@@ -4,7 +4,7 @@
 #include "input.h"
 
 
-int symbol_read(struct token* t) {
+int symbol_read(struct token* t, int* ex_code2) {
     char c;
     int ex_code = 1;
 
@@ -37,6 +37,7 @@ int symbol_read(struct token* t) {
     } else {
         printf("n/a");
         ex_code = 2;
+        *ex_code2 = 2;
     }
 
     return ex_code;

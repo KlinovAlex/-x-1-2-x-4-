@@ -17,20 +17,22 @@ int top_int = -1;
 int main() {
     struct token tok[25];
     struct token postfix_tok[25];
-    int i = 0;
+    int i = 0, ex_code2 = 0;
 
     // Выделение памяти из кучи для матрицы поля
     int** game_matrix = malloc(Y_HEIGHT * X_WIDTH * sizeof(int) + Y_HEIGHT * sizeof(int*));
     int* values_array = (int*) (game_matrix + Y_HEIGHT);
     for (int nm = 0; nm < Y_HEIGHT; nm++) game_matrix[nm] = values_array + X_WIDTH * nm;
 
-    while (symbol_read(&tok[i]) == 1) {
+    while (symbol_read(&tok[i], &ex_code2) == 1) {
         i++;
     }
-    convert(tok, postfix_tok, i);
-    initialise(game_matrix, i, postfix_tok);
-    draw(game_matrix);
-    free(game_matrix);
+    if (ex_code2 != 2) {
+        convert(tok, postfix_tok, i);
+        initialise(game_matrix, i, postfix_tok);
+        draw(game_matrix);
+        free(game_matrix);
+    }
 
     return 0;
 }

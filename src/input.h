@@ -12,7 +12,7 @@ struct token {
 };
 
 // Считываем посимвольно
-int symbol_read(struct token* t);
+int symbol_read(struct token* t, int* ex_code2);
 // Функция проверки числа
 int checkdigit(char c);
 
