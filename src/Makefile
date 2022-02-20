@@ -3,14 +3,14 @@ CFLAGS=-Wall -Wextra -Werror -c
 OFLAGS=-Wall -Wextra -Werror -o
 
 all:
-	$(MAKE) first_period
+	$(MAKE) main
 
 clean:
 	rm -rf *.o *.a *.so
 
-first_period:
-	$(CC) $(CFLAGS) test_parsing.c input.c
-	$(CC) $(OFLAGS) First test_parsing.o input.o
+main:
+	$(CC) $(CFLAGS) graph.c input.c draw.c
+	$(CC) $(OFLAGS) ../build/graph graph.c input.c draw.c
 	$(MAKE) clean
 
 rebuild:

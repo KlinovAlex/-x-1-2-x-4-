@@ -1,33 +1,54 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "input.h"
 
-char* read_function() {
-//    char ch, Newch;
-    char* str = malloc(10 * sizeof(char));
-       printf("\n Уравнение:  ");
-        scanf("%s", str);
-        getchar();
-       
-//       printf("\n Search for :  ");
-//       scanf("%c", &ch);
-//       getchar();
-//
-//       printf("\n New Character :  ");
-//       scanf("%c", &Newch);
-    return str;
+
+int symbol_read(struct token* t) {
+    char c;
+    int ex_code = 1;
+
+//  Удаляем пробелы
+    do {
+        c = getchar();
+    } while (c == ' ');
+// Проверка на число
+    if (checkdigit(c) == 1) {
+        t->type = TOK_NUM;
+        t->value = 0;
+// Пока в строке числа наращиваем в 10 раз и прибавляем
+        do {
+            t->value = t->value * 10 + (c - '0');
+            c = getchar();
+        } while (checkdigit(c) == 1);
+// Возвращаем в строку не число
+        ungetc(c, stdin);
+    } else if ((c == '+') || (c == '-') || (c == '*') || (c == '/') || (c == '^')) {
+        t->type = TOK_OPERATOR;
+        t->operand = c;
+    } else if ((c == '(') || (c == ')')) {
+        t->type = TOK_BRACE;
+        t->operand = c;
+    } else if (c == 'x') {
+        t->type = TOK_VAR;
+        t->value = c;
+    } else if (c == '\n') {
+        ex_code = 0;
+    } else {
+        printf("n/a");
+        ex_code = 2;
+    }
+
+    return ex_code;
 }
 
-char* replace_x(char* str, int a) {
-    char* str_new = malloc(10 * sizeof(char));
-    strcpy(str_new, str);
-    char b = a + '0';
-    printf("\nTEST %d\n", a);
-    for(unsigned long i = 0; i <= strlen(str); i++) {
-        if(str_new[i] == 'x') {
-            str_new[i] = b;
-        }
+// Проверка - является ли символ числом
+int checkdigit(char c) {
+    int ex_code = 0;
+
+    if (c > 47 && c < 58) {
+        ex_code = 1;
     }
-    printf("\n Уравнение с заменой = %s \n",  str_new);
-    return str_new;
+
+    return ex_code;
 }
