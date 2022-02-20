@@ -31,8 +31,8 @@ int main() {
         convert(tok, postfix_tok, i);
         initialise(game_matrix, i, postfix_tok);
         draw(game_matrix);
-        free(game_matrix);
     }
+    free(game_matrix);
 
     return 0;
 }
